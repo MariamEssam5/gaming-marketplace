@@ -9,6 +9,7 @@ import postRoutes from "./routes/postRoutes.js";
 import ticketRoutes from "./routes/ticketRoutes.js";
 import settingsRoutes from "./routes/settingsRoutes.js";
 import { errorHandler } from "./middlewares/errorMiddleware.js";
+import { setupSwagger } from "./swagger.js";
 
 dotenv.config();
 
@@ -32,6 +33,9 @@ app.use("/api/auth", authRoutes);
 app.use("/api/posts", postRoutes);
 app.use("/api/tickets", ticketRoutes);
 app.use("/api/settings", settingsRoutes);
+
+// Setup Swagger Documentation
+setupSwagger(app);
 
 // 4. Error Handler
 app.use(errorHandler);

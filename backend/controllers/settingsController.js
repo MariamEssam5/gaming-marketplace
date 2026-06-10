@@ -18,12 +18,12 @@ export const getSettings = asyncHandler(async (req, res) => {
 // @route   PUT /api/settings
 // @access  Protected/Admin
 export const updateSettings = asyncHandler(async (req, res) => {
-  const {  socialLinks, adminContactNumber, alertMessage } = req.body;
+  const {  socialLinks, adminContactNumbers, alertMessage } = req.body;
 
   // Build the update object from provided fields to avoid overwriting with undefined
   const updateData = {};
   if (socialLinks !== undefined) updateData.socialLinks = socialLinks;
-  if (adminContactNumber !== undefined) updateData.adminContactNumber = adminContactNumber;
+  if (adminContactNumbers !== undefined) updateData.adminContactNumbers = adminContactNumbers;
   if (alertMessage !== undefined) updateData.alertMessage = alertMessage;
 
   const settings = await Settings.findOneAndUpdate(

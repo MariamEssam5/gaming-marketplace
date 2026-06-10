@@ -7,7 +7,7 @@ const socialLinkSchema = new mongoose.Schema(
       required: [true, "Link title is required"],
       trim: true,
     },
-    subtitle: { 
+    subtitle: {
       type: String,
       trim: true,
       default: "",
@@ -20,23 +20,29 @@ const socialLinkSchema = new mongoose.Schema(
     platform: {
       type: String,
       required: [true, "Platform type is required"],
-      enum: ["whatsapp", "facebook", "tiktok", "telegram", "instagram", "other"],
+      enum: [
+        "whatsapp",
+        "facebook",
+        "tiktok",
+        "telegram",
+        "instagram",
+        "other",
+      ],
       default: "whatsapp",
     },
   },
-  { _id: true } 
+  { _id: true },
 );
 
 const settingsSchema = new mongoose.Schema(
   {
-    socialLinks: { 
+    socialLinks: {
       type: [socialLinkSchema],
       default: [],
     },
-    adminContactNumber: {
-      type: String,
-      trim: true,
-      default: "",
+    adminContactNumbers: {
+      type: [String],
+      default: [],
     },
     alertMessage: {
       type: String,
@@ -46,7 +52,7 @@ const settingsSchema = new mongoose.Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 export default mongoose.model("Settings", settingsSchema);
