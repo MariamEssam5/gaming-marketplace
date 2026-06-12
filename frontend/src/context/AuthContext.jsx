@@ -19,24 +19,28 @@ export const AuthProvider = ({ children }) => {
 
   const login = async (email, password) => {
     const response = await api.post('/auth/login', { email, password });
-    const { token: newToken, user: newUser } = response.data;
+    const data = response.data; 
+    
+    const { token: newToken, ...userData } = data; 
     
     localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
+    localStorage.setItem('user', JSON.stringify(userData));
     setToken(newToken);
-    setUser(newUser);
-    return response.data;
+    setUser(userData); 
+    return data;
   };
 
   const register = async (userData) => {
     const response = await api.post('/auth/register', userData);
-    const { token: newToken, user: newUser } = response.data;
+    const data = response.data;
+    
+    const { token: newToken, ...savedUser } = data;
     
     localStorage.setItem('token', newToken);
-    localStorage.setItem('user', JSON.stringify(newUser));
+    localStorage.setItem('user', JSON.stringify(savedUser));
     setToken(newToken);
-    setUser(newUser);
-    return response.data;
+    setUser(savedUser);
+    return data;
   };
 
   const logout = () => {
@@ -45,9 +49,16 @@ export const AuthProvider = ({ children }) => {
     setToken(null);
     setUser(null);
   };
+  const updateUser = (newUserData) => {
+  setUser((prevUser) => {
+    const updated = { ...prevUser, ...newUserData };
+    localStorage.setItem('user', JSON.stringify(updated));
+    return updated;
+  });
+};
 
   return (
-    <AuthContext.Provider value={{ user, token, login, register, logout }}>
+    <AuthContext.Provider value={{ user, token, login, register, logout, updateUser }}>
       {children}
     </AuthContext.Provider>
   );
