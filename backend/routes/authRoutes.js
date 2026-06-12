@@ -1,10 +1,12 @@
 import express from "express";
 import { body, validationResult } from "express-validator";
+import upload from "../middlewares/uploadMiddleware.js";
 import {
   registerUser,
   loginUser,
   getUserProfile,
   updateUserProfile,
+  updateProfilePicture,
 } from "../controllers/authController.js";
 import { protect } from "../middlewares/authMiddleware.js";
 
@@ -65,5 +67,6 @@ router.post(
 
 router.get("/profile", protect, getUserProfile);
 router.put("/profile", protect, updateUserProfile);
+router.put("/profile-picture", protect, upload.single("profilePicture"), updateProfilePicture);
 
 export default router;

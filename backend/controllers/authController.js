@@ -1,5 +1,6 @@
 import User from "../models/User.js";
 import generateToken from "../utils/generateToken.js";
+import { v2 as cloudinary } from "cloudinary";
 
 const asyncHandler = (fn) => (req, res, next) => {
   Promise.resolve(fn(req, res, next)).catch(next);
@@ -89,5 +90,35 @@ const updateUserProfile = asyncHandler(async (req, res) => {
     token: generateToken(updatedUser._id),
   });
 });
+const updateProfilePicture = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
 
-export { registerUser, loginUser, getUserProfile, updateUserProfile };
+  if (!user) {
+    res.status(404);
+    throw new Error("User not found");
+  }
+
+  if (req.file) {
+    const result = await cloudinary.uploader.upload(req.file.path, {
+      folder: "profile_pictures",
+    });
+    user.profilePictureUrl = result.secure_url;
+  }
+
+  await user.save();
+
+  res.json({
+    _id: user._id,
+    name: user.name,
+    email: user.email,
+    profilePictureUrl: user.profilePictureUrl,
+  });
+});
+
+export {
+  registerUser,
+  loginUser,
+  getUserProfile,
+  updateUserProfile,
+  updateProfilePicture,
+};
