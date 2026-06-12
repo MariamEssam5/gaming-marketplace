@@ -274,7 +274,9 @@ function HomePage() {
                             ) : null}
                           </div>
 
-<div className="shrink-0 rounded-full border border-white/8 bg-white/5 px-3 py-1 text-xs md:text-sm lg:text-base lg:px-5 lg:py-2 text-slate-300 transition group-hover:border-cesar-cyan/25 group-hover:text-white font-medium">                            افتح الرابط
+                          <div className="shrink-0 rounded-full border border-white/8 bg-white/5 px-3 py-1 text-xs md:text-sm lg:text-base lg:px-5 lg:py-2 text-slate-300 transition group-hover:border-cesar-cyan/25 group-hover:text-white font-medium">
+                            {" "}
+                            افتح الرابط
                           </div>
                         </div>
                       </motion.a>
