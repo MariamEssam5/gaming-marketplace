@@ -59,7 +59,7 @@ const updatePostStatus = asyncHandler(async (req, res) => {
   res.json(updatedPost);
 });
 const getPostById = asyncHandler(async (req, res) => {
-  const post = await Post.findById(req.params.id);
+  const post = await Post.findById(req.params.id).populate("user", "name email phoneNumber profilePictureUrl");
 
   if (!post) {
     res.status(404);
